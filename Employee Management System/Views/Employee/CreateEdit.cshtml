@@ -1,0 +1,437 @@
+﻿
+@model EmployeeManagement.Core.Models.EmployeeDetails
+@{
+    ViewBag.Title = "CreateEdit";
+
+}
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/js/site.js"></script>
+
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    .error{
+        color:red;
+    }
+</style>
+<div class="col-12 back">
+    <button class="btn btn-primary btn-sm float-right add" onclick="EmployeeDashboard()">  EmployeeDashboard </button>
+    <div class="container col-lg-3 col-mg-3 col-mg-12">
+
+        <div class="log-div">
+            <div class="log-title">Register</div>
+
+            <div class="log-input-fields">
+
+
+                @using (Html.BeginForm("CreateEdit", "Employee", FormMethod.Post, new { @class = "agile_form", @id = "Formdetails", autocomplete = "off" }))
+                {
+                    @Html.HiddenFor(model => model.EmployeeId)
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <div class="log-user">
+
+                            @Html.EditorFor(Modal => Modal.FullName, new { HtmlAttributes = new { @type = "text", @placeholder = "FullName", @class = "input form-control" } })
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>UserName</label>
+                        <div class="log-user">
+
+                            @Html.EditorFor(Modal => Modal.UserName, new { HtmlAttributes = new { @type = "text", @placeholder = "UserName", @class = "input form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <div class="log-user">
+
+                            @Html.EditorFor(Modal => Modal.Email, new { HtmlAttributes = new { @type = "email", @placeholder = "Email", @class = "input form-control" } })
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label>Department</label>
+                        <div class="log-user">
+                            @Html.DropDownListFor(Modal => Modal.Department, new List<SelectListItem> { new SelectListItem() { Text="---Select Department---", Value=""},
+                                                   new SelectListItem { Text="IT ", Value="IT"},
+                                                   new SelectListItem { Text="QA", Value="QA"},
+                                                   new SelectListItem { Text="BA", Value="BA"},
+                                                   new SelectListItem { Text="Programmers", Value="Programmers"},
+                                                    new SelectListItem { Text="Developers", Value="Developers"},
+                                           }, new { @class = "input form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Matricule</label>
+                        <div class="log-user">
+
+                            @Html.EditorFor(Modal => Modal.Matricule, new { HtmlAttributes = new { @type = "text", @placeholder = "Matricule", @class = "input form-control" } })
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <div class="log-user">
+
+                            @Html.EditorFor(Modal => Modal.Address, new { HtmlAttributes = new { @type = "text", @placeholder = "Address", @class = "input form-control" } })
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>PhoneNumber</label>
+                        <div class="log-user">
+
+                            @Html.EditorFor(Modal => Modal.PhoneNumber, new { HtmlAttributes = new { @type = "text", @placeholder = "PhoneNumber", @class = "input form-control" } })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        
+                            @Html.RadioButtonFor(Modal => Modal.Gender, "Male")<span>Male</span>
+                            @Html.RadioButtonFor(Modal => Modal.Gender, "Female")<span>Female</span></div>
+                      
+                        <br />
+                        <div class="row" style="text-align:center">
+                            <div class="btn-algins">
+                                @if (Model.EmployeeId != 0)
+                                {
+                                    <button type="button" class="btn btn-success" onclick="SubmitDetails()">Update</button>
+
+                                }
+                                else
+                                {
+                                    <button type="button" class="btn btn-success" onclick="SubmitDetails()">Submit</button>
+
+                                }
+                                <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                                <button type="button" class="btn btn-danger" onclick="btn()">Cancel</button>
+                            </div>
+                        </div>
+                        }
+                    </div>
+        </div>
+    </div>
+</div>
+
+<script>
+     function EmployeeDashboard()
+    {
+        window.location.href = "@Url.Action("EmployeeDashboard", "Employee")";
+    }
+</script>
+
+    <script>
+        $(function () {
+        debugger;
+            $("#Formdetails").validate({
+            rules:
+            {
+                FullName:
+                {
+            required: true,
+                },
+                UserName:
+                {
+            required: true,
+                },
+                Email:
+                {
+            required: true,
+                },
+                Department:
+                {
+            required: true,
+                },
+                Matricule:
+                {
+            required: true,
+                },
+                Address:
+                {
+            required: true,
+                },
+                PhoneNumber:
+                {
+            required: true,
+                    minlength: 10,
+                    maxlength: 10,
+                },
+                Gender:
+                {
+            required: true,
+                }
+            },
+            messages:
+            {
+                FullName:
+                {
+            required: "FullName is Required"
+                },
+                UserName:
+                {
+            required: "Username is Required"
+                },
+                Email:
+                {
+            required: "Email is Required"
+                },
+                Department:
+                {
+            required: "Department is Required"
+                },
+                Matricule:
+                {
+            required: "Marticule is Required",
+                },
+                Address:
+                {
+            required: "Address is Required",
+                },
+                PhoneNumber:
+                {
+            required: "PhoneNumber is Required",
+                },
+                Gender:
+                {
+            required: "Gender is Required"
+                }
+            }
+        });
+    });
+    function SubmitDetails() {
+        if ($("#Formdetails").valid()) {
+            $("#Formdetails").submit();
+        }
+    }
+</script>
+
+@*<script>
+    $(document).ready(function () {
+        $(function () {
+            debugger;
+
+            alert("Hello");
+            $('#formDetail').validate({
+
+                rules:
+                {
+                    FullName:
+                    {
+                        required: true,
+                        maxlength: 50
+                    }
+                    //UserName:
+                    //{
+                    //    required: true,
+                    //    maxlength: 50
+                    //},
+                    //Email:
+                    //{
+                    //    required: true
+                    //},
+                    //Department:
+                    //{
+                    //    required: true
+                    //},
+                    //Matricule:
+                    //{
+                    //    required: true
+                    //},
+                    //Address:
+                    //{
+                    //    required: true
+                    //},
+                    //PhoneNumber:
+                    //{
+                    //    required: true
+                    //},
+                    //Gender:
+                    //{
+                    //    required: true
+                    //}
+
+
+                },
+                messages:
+                {
+                    FullName:
+                    {
+                        required: "FullName is required",
+                        maxlength: "enter valid Name"
+                    }
+                    //UserName:
+                    //{
+                    //    required: "UserName is required",
+                    //    maxlength: "enter valid Username"
+                    //},
+                    //Email:
+                    //{
+                    //    required: "Email is required"
+                    //},
+                    //Department:
+                    //{
+                    //    required: "Department is required"
+                    //},
+                    //Matricule:
+                    //{
+                    //    required: "age is required"
+                    //},
+                    //Address:
+                    //{
+                    //    required: "Matricule is required"
+                    //},
+                    //PhoneNumber:
+                    //{
+                    //    required: "PhoneNumber is required"
+                    //},
+                    //Gender:
+                    //{
+                    //    required: "Gender is required"
+                    //}
+
+
+                }
+            });
+        });
+    });
+    function SubmitDetail()
+    {
+       
+        if ($("#formDetail").valid())
+        {
+            $("#formDetail").submit();
+        }
+    }
+
+   
+     
+</script>*@
+
+@*<script>
+
+        //$(function ()
+        //{
+        //    if ($("#StudentId") == 0)
+        //    {
+        //        $("#FirstName").val("");
+        //        $("#LastName").val("");
+        //        $("#DateOfBirth").val("");
+        //        $("#Age").val("");
+        //        $("#FavoriteSubject").val("");
+        //        $("#InterstedCourse").val("");
+        //        $("#MathsMark").val("");
+        //        $("#ChemistryMark").val("");
+        //        $("#ComputerScienceMark").val("");
+        //    }
+        //});
+        $(function () {
+            debugger;
+            var form = $('#formDetails').get(0);
+            $.removeData(form, 'validator');
+            validator = $('#formDetails').validate({
+                rules:
+                {
+                    FirstName:
+                    {
+                        maxlength: 50,
+                      /*  regex: (/ ^[A - Za - z] +$/)*/
+                    },
+
+                    LastName:
+                    {
+                        required: true,
+                        maxlength: 50,
+                      /*  regex: (/ ^[A - Za - z] +$/)*/
+                    },
+                    Age:
+                    {
+                        required: true,
+                        maxlength: 3,
+                        regex: "^[1-9]?[0-9]{1}$|^100$"
+
+                    },
+                    FavoriteSubject:
+                    {
+                        required: true,
+                    },
+                    MathsMark:
+                    {
+                        required: true,
+                        maxlength: 3,
+                        regex: "^[1-9]?[0-9]{1}$|^100$"
+                    },
+                    ChemistryMark:
+                    {
+                        required: true,
+                        maxlength: 3,
+                        regex: "^[1-9]?[0-9]{1}$|^100$"
+                    },
+                    ComputerScienceMark:
+                    {
+                        required: true,
+                        maxlength: 3,
+                        regex: "^[1-9]?[0-9]{1}$|^100$"
+                    }
+                },
+                messages:
+                {
+
+                    FirstName:
+                    {
+                        maxlength: "Last Name should be 50 charcter",
+                        regex: "Enter valid Name"
+                    },
+                    LastName:
+                    {
+                        required: "Last Name is required",
+                        maxlength: "Last Name should be 50 charcter",
+                        regex: "Enter valid Name"
+                    },
+                    age:
+                    {
+                        required: "age is required",
+                        maxlength: "age should be 3 digits",
+                        regex: "enter valid mark"
+                    },
+                    FavoriteSubject:
+                    {
+                        required: "Please Select Favorite Subject",
+                    },
+                    MathsMark:
+                    {
+                        required: "Maths Mark is required",
+                        maxlength: "Maths Mark should be 3 digits",
+                        regex: "Enter Valid Mark"
+                    },
+                    ChemistryMark:
+                    {
+                        required: "Chemistry Mark is required",
+                        maxlength: "Chemistry Mark should be 3 digits",
+                        regex: "Enter Valid Mark"
+                    },
+                    ComputerScienceMark:
+                    {
+                        required: "Computer Science Mark is required",
+                        maxlength: "Computer Science Mark should be 3 digits",
+                        regex: "Enter Valid Mark"
+                    }
+                }
+            });
+        });
+
+
+
+
+        function SubmitDetails() {
+            debugger;
+            if ($("#formDetails").valid()) {
+                $("#formDetails").submit();
+            }
+        }
+    </script>*@

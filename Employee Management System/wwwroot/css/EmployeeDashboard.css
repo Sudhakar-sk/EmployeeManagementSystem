@@ -1,0 +1,43 @@
+﻿
+
+#add {
+    width: 100px;
+    margin: 10px 25px 10px 30px;
+}
+
+.body {
+    font-family: "Poppins", Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.8;
+    font-weight: normal;
+    background: #f8f9fd;
+    color: gray;
+}
+
+#add_button {
+    margin: 10px 10px 10px 10px;
+    float: right;
+}
+
+.table-primari {
+    background: #6807f9;
+}
+
+.btn-primary {
+    background: #6807f9;
+}
+
+thead tr td {
+    border: none;
+    padding: 30px;
+    font-size: 14px;
+    color: #fff;
+}
+
+.ftco-section {
+    padding: 4em 0;
+}
+
+.table-wrap {
+    overflow-x: scroll;
+}

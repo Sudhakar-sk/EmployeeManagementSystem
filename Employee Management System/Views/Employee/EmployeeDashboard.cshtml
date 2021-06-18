@@ -1,0 +1,149 @@
+﻿
+@model IEnumerable<EmployeeManagement.Core.Models.EmployeeDetails>
+@{
+    ViewBag.Title = "EmployeeDashboard";
+}
+<link href="~/css/EmployeeDashboard.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
+<script>
+    function AddEmployee()
+    {
+        window.location.href = "@Url.Action("AddEmployee", "Employee")";
+    }
+
+    function Delete(id)
+    {
+        window.location.href = "@Url.Action("Delete", "Employee")?Id=" + id;
+
+    }
+
+    function Edit(id)
+    {
+            window.location.href = "@Url.Action("Edit", "Employee")?Id=" + id;
+    }
+     function View(id)
+    {
+            window.location.href = "@Url.Action("View", "Employee")?Id=" + id;
+    }
+</script>
+
+<style>
+    p{
+        text-align:center;
+    }
+</style>
+
+@if (TempData["LoginAlert"] != null)
+{
+    <script>
+        alert("@Html.Raw(@TempData["LoginAlert"].ToString())");
+    </script>
+
+}
+
+
+@if (TempData["CreateAlert"] != null)
+{
+    <script>
+        alert("@Html.Raw(@TempData["CreateAlert"].ToString())");
+    </script>
+}
+
+@if (TempData["DeleteAlert"] != null)
+{
+    <script>
+        alert("@Html.Raw(@TempData["DeleteAlert"].ToString())");
+    </script>
+}
+@if (TempData["EditAlert"] != null)
+{
+    <script>
+        alert("@Html.Raw(@TempData["EditAlert"].ToString())");
+    </script>
+}
+
+
+<div class="container-fluid">
+    <div class="">
+        <section class="">
+
+            <h1 class="text-center mb-4">Employee Detail List</h1>
+
+
+            <div class="row">
+                <button class="btn btn-primary btn-sm ml-auto" id="add" onclick="AddEmployee()"> Add Employee </button>
+                <div class="row1">
+
+                    <div class="col-md-12">
+
+                        <div class="table-wrap">
+                            <table class="table table-bordered table-striped">
+
+                                <thead class="table-primari">
+                                    <tr>
+                                        <td>Full Name</td>
+                                        <td>User Name</td>
+                                        <td>Email</td>
+                                        <td>Department</td>
+                                        <td>Matricule</td>
+                                        <td>Address</td>
+                                        <td>PhoneNumber</td>
+                                        <td>Gender</td>
+                                        <td>Edit</td>
+                                        <td>View</td>
+                                        <td>Delete</td>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+
+                                        foreach (var items in Model)
+                                        {
+                                            <tr>
+                                                <td>@items.FullName </td>
+                                                <td>@items.UserName </td>
+                                                <td>@items.Email</td>
+                                                <td>@items.Department</td>
+                                                <td>@items.Matricule</td>
+                                                <td>@items.Address</td>
+                                                <td>@items.PhoneNumber</td>
+                                                <td>@items.Gender</td>
+
+                                                <td>
+                                                    <button class="btn btn-success" type="button" id="@items.EmployeeId" onclick="Edit(this.id)">Edit</button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-warning" type="button" id="@items.EmployeeId" onclick="View(this.id)">View</button>
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-danger" type="button" id="@items.EmployeeId" onclick="Delete(this.id)">delete</button>
+                                                </td>
+                                            </tr>
+                                        }
+
+                                    }
+
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="7">No Record Found</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                            <p>Employee count:@ViewBag.count</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

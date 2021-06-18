@@ -1,0 +1,122 @@
+﻿
+@model EmployeeManagement.Core.Models.EmployeeDetails
+@{
+    ViewBag.Title = "CreateEdit";
+
+}
+<link href="~/css/CreateEdit.css" rel="stylesheet" />
+<script src="~/js/site.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<script>
+    function EmployeeDashboard()
+    {
+        window.location.href = "@Url.Action("EmployeeDashboard", "Employee")";
+    }
+</script>
+
+<script>
+    $(function () {
+        debugger;
+        $(".input").prop('disabled', true);
+        $("input").prop('disabled', true);
+    });
+</script>
+
+<div class="col-12 back">
+    <div class="containers col-lg-4 col-mg-4 col-mg-12">
+        <button class="btn btn-primary btn-sm add ml-auto" onclick="EmployeeDashboard()">  EmployeeDashboard </button>
+        <div class="log-div">
+            <div class="log-title">Register</div>
+
+            <div class="log-input-fields">
+
+
+                @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "agile_form", @id = "formDetails", autocomplete = "off" }))
+                {
+                    @Html.HiddenFor(model => model.EmployeeId)
+                    <label>Full Name</label>
+                    <div class="log-user">
+
+                        @Html.EditorFor(Modal => Modal.FullName, new { HtmlAttributes = new { @type = "text", @class = "input" } })
+
+                    </div>
+                    <label>UserName</label>
+                    <div class="log-user">
+
+                        @Html.EditorFor(Modal => Modal.UserName, new { HtmlAttributes = new { @type = "text", @class = "input" } })
+
+                    </div>
+
+                    <label>Email</label>
+                    <div class="log-user">
+
+                        @Html.EditorFor(Modal => Modal.Email, new { HtmlAttributes = new { @type = "email", @class = "input" } })
+
+                    </div>
+
+
+
+
+                    <label>Department</label>
+                    <div class="log-user">
+                        @Html.DropDownListFor(Modal => Modal.Department, new List<SelectListItem> { new SelectListItem() { Text="---Select Department---", Value=""},
+                                               new SelectListItem { Text="IT ", Value="IT"},
+                                               new SelectListItem { Text="QA", Value="QA"},
+                                               new SelectListItem { Text="BA", Value="BA"},
+                                               new SelectListItem { Text="Programmers", Value="Programmers"},
+                                                new SelectListItem { Text="Developers", Value="Developers"},
+                                       }, new { @class = "input" })
+                    </div>
+                    <label>Matricule</label>
+                    <div class="log-user">
+
+                        @Html.EditorFor(Modal => Modal.Matricule, new { HtmlAttributes = new { @type = "text", @class = "input" } })
+
+                    </div>
+                    <label>Address</label>
+                    <div class="log-user">
+
+                        @Html.EditorFor(Modal => Modal.Address, new { HtmlAttributes = new { @type = "text", @class = "input" } })
+
+                    </div>
+
+                    <label>PhoneNumber</label>
+                    <div class="log-user">
+
+                        @Html.EditorFor(Modal => Modal.PhoneNumber, new { HtmlAttributes = new { @type = "text", @class = "input" } })
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        @Html.RadioButtonFor(Modal => Modal.Gender, "Male")<span>Male</span>
+                        @Html.RadioButtonFor(Modal => Modal.Gender, "Female")<span>Female</span>
+                    </div>
+                    <br />
+                    @*<div class="row" style="text-align:center">
+                        <div class="btn-algins">
+                            @if (Model.EmployeeId != 0)
+                            {
+                                <button type="submit" class="btn btn-success" onclick="SubmitDetails()">Update</button>
+
+                            }
+                            else
+                            {
+                                <button type="submit" class="btn btn-success" onclick="SubmitDetails()">Submit</button>
+
+                            }
+                            <button type="reset" class="btn btn-outline-secondary">Reset</button>
+                            <button type="button" class="btn btn-danger" onclick="btn()">Cancel</button>
+                        </div>
+                    </div>*@
+
+                }
+
+
+            </div>
+        </div>
+    </div>
+</div>
