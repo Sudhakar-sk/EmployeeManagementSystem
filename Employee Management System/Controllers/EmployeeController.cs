@@ -7,18 +7,29 @@ using System.Threading.Tasks;
 using EmployeeManagement.Services.Services;
 using EmployeeManagement.Core.IServices;
 using System.Data;
+using Microsoft.AspNetCore.Session;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Employee_Management_System.Controllers
 {
     public class EmployeeController : Controller
     {
-        readonly IEmployeeService _IEmployeeService;
+        #region Declaration
+        private   readonly IEmployeeService _IEmployeeService;
+        [Obsolete]
+        private readonly IHostingEnvironment hostingEnvironment;
+        #endregion
 
-        public EmployeeController(IEmployeeService employeeService)
+        #region Constructor
+        [Obsolete]
+        public EmployeeController(IEmployeeService employeeService, IHostingEnvironment hostingEnvironment)
         {
             _IEmployeeService = employeeService;
+            this.hostingEnvironment = hostingEnvironment;
         }
-
+        #endregion
 
 
         #region Login
@@ -28,88 +39,191 @@ namespace Employee_Management_System.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Login(AdminLogin adminLogin)
+        public ActionResult Login1(AdminLogin adminLogin)
         {
-          var admin= _IEmployeeService.LoginCheck(adminLogin);
+            var admin = _IEmployeeService.LoginCheck(adminLogin);
             if (admin == true)
             {
+                HttpContext.Session.SetString("username",adminLogin.UserName);
                 TempData["LoginAlert"] = "Login Successfully ";
                 return RedirectToAction("EmployeeDashboard");
             }
             else
             {
-                ViewBag.Login = "Enter Valid Login";
+                TempData["LoginAlert"] = "Enter Valid Login";
+                return View("Login");
             }
-            return View();
+
         }
         #endregion
 
-        #region Employee List
-        public ActionResult EmployeeDashboard()
+        #region Logout
+        public IActionResult Logout()
         {
-            var EmployeeList= _IEmployeeService.GetEmployeeDetails();
-            ViewBag.count=EmployeeList.Count();
-            return View(EmployeeList);
+            if (HttpContext.Session.GetString("username") != null)
+            {
+                HttpContext.Session.Remove("username");
+                TempData["LogoutAlert"] = "Logout Successfully ";
+            }
+            return RedirectToAction("Login");
+        }
+    #endregion
+
+        #region Employee List
+    public ActionResult EmployeeDashboard()
+        {
+            if (HttpContext.Session.GetString("username") != null)
+            {
+                var EmployeeList = _IEmployeeService.GetEmployeeDetails();
+                ViewBag.count = EmployeeList.Count();
+                return View(EmployeeList);
+            }
+            return RedirectToAction("Login");
         }
         #endregion
 
         #region AddEmployee
         public IActionResult AddEmployee()
         {
-            return View("CreateEdit", new EmployeeDetails());
+            if (HttpContext.Session.GetString("username") != null)
+               {
+                return View("CreateEdit", new EmployeeDetails());
+               }
+            return RedirectToAction("Login");
         }
         #endregion
         #region Edit
         public IActionResult Edit(int id)
         {
-            EmployeeDetails model = _IEmployeeService.GetEmployeeById(id);
-            return View("CreateEdit", model);
-        }
-        #endregion
-        #region Edit
-        public IActionResult View(int id)
-        {
-            EmployeeDetails model = _IEmployeeService.GetEmployeeById(id);
-            return View( model);
+                if (HttpContext.Session.GetString("username") != null)
+                 {
+                    EmployeeDetails model = _IEmployeeService.GetEmployeeById(id);
+                    return View("CreateEdit", model);
+                 }
+                return RedirectToAction("Login");
+            }
+            #endregion
+        #region View
+            public IActionResult View(int id)
+              {
+                    if (HttpContext.Session.GetString("username") != null)
+                    {
+                        EmployeeDetails model = _IEmployeeService.GetEmployeeById(id);
+                        return View(model);
 
-        }
-        #endregion
+                    }
+                    return RedirectToAction("Login");
+               }
+                #endregion
 
         #region AddEdit
         [HttpPost]
         public IActionResult CreateEdit(EmployeeDetails employee)
         {
+           if (HttpContext.Session.GetString("username") != null)
+           {
+              if (employee.EmployeeId == 0)
+                {
 
-                
-                    if (employee.EmployeeId == 0)
-                    {
-                        _IEmployeeService.InsertEmployee(employee);
-                    }
-                    else
-                    {
-                       _IEmployeeService.UpdateEmployee(employee);
-                    }
-   
-          
-            return RedirectToAction("EmployeeDashboard");
+                _IEmployeeService.InsertEmployee(employee);
+
+                 }
+              else
+                 {
+                _IEmployeeService.UpdateEmployee(employee);
+                 }
+
+              return RedirectToAction("EmployeeDashboard");
+
+           }
+            return RedirectToAction("Login");
         }
         #endregion
 
         #region delete
-        public ActionResult Delete(int id)
+     public ActionResult Delete(int id)
+     { 
+        
+        if (HttpContext.Session.GetString("username") != null)
         {
-            if (id != 0)
+           if (id != 0)
             {
-               
                 _IEmployeeService.DeleteEmployee(id);
             }
             return RedirectToAction("EmployeeDashboard");
         }
+         return RedirectToAction("Login");
+     }
         #endregion
 
-        public IActionResult Index()
-        {
-            return View();
-        }
+
+        #region MyRegion
+        //public ActionResult FileUpload()
+        //{
+        //    return View();
+        //}
+        //[HttpPost]
+        //public ActionResult FileUpload(IFormFile files)
+        //{
+        //    _IEmployeeService.GetFile(files);
+        //    return View();
+        //}
+        #endregion
+
+
+        #region MyRegion
+        //public async Task<IActionResult> UploadFile(IFormFile file)
+        //{
+        //    if (file == null || file.Length == 0)
+        //        return Content("file not selected");
+
+        //    var path = Path.Combine(
+        //                Directory.GetCurrentDirectory(), "wwwroot",
+        //                file.GetFilename());
+
+        //    using (var stream = new FileStream(path, FileMode.Create))
+        //    {
+        //        await file.CopyToAsync(stream);
+        //    }
+
+        //    return RedirectToAction("Files");
+        //}
+        #endregion
+
+        //#region MyRegion
+        //public ActionResult FileUpload()
+        //{
+        //    return View();
+        //}
+
+        //[Obsolete]
+        //public ActionResult FileUploads(FileDetails model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        string UniqueFileName = null;
+        //        if (model.Photo != null)
+        //        {
+        //            string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+        //            UniqueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+        //            string filePath = Path.Combine(uploadsFolder, UniqueFileName);
+        //            model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+                   
+        //        }
+        //        model.PhotoPath = UniqueFileName;
+
+        //        _IEmployeeService.GetFile(model);
+        //    }
+          
+              
+            
+        //    return RedirectToAction("FileDetails");
+        //}
+        //#endregion
+        //public ActionResult FileDetails()
+        //{
+        //    var list=_IEmployeeService.GetFileDetails();
+        //    return View(list);
+        //}
     }
 }

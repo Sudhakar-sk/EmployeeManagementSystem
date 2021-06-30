@@ -20,6 +20,10 @@
       {
          "Name": "[dbo].[Employee_Details]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[file_Details]",
+         "ObjectType": 0
       }
    ],
    "UiHint": "(localdb)\\MSSQLLocalDB.EmployeeManagementSystem",

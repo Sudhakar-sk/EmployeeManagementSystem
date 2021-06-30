@@ -20,12 +20,13 @@ namespace EmployeeManagement.Entities
 
         public virtual DbSet<Employee_Details> Employee_Details { get; set; }
         public virtual DbSet<admin_Login> admin_Login { get; set; }
+        public virtual DbSet<file_Details> file_Details { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-
+ //To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=EmployeeManagementSystem;Integrated Security=True");
             }
         }
@@ -64,6 +65,17 @@ namespace EmployeeManagement.Entities
                 entity.Property(e => e.Password).IsUnicode(false);
 
                 entity.Property(e => e.User_Name).IsUnicode(false);
+            });
+
+            modelBuilder.Entity<file_Details>(entity =>
+            {
+                entity.Property(e => e.Created_Time_Stamp).HasDefaultValueSql("(getdate())");
+
+                entity.Property(e => e.File_Extension).IsUnicode(false);
+
+                entity.Property(e => e.File_Name).IsUnicode(false);
+
+                entity.Property(e => e.Updated_Time_Stamp).HasDefaultValueSql("(getdate())");
             });
 
             OnModelCreatingPartial(modelBuilder);

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EmployeeManagement.Core.IRepositories;
 using EmployeeManagement.Core.IServices;
 using EmployeeManagement.Core.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace EmployeeManagement.Services.Services
 {
@@ -61,7 +62,42 @@ namespace EmployeeManagement.Services.Services
             _IEmployeeRepository.UpdateEmployee(employee);
         }
         #endregion
+        //===================================================================================================
+        public void FilesUpload(FileDetails files)
+        {
+            _IEmployeeRepository.FilesUpload(files);
+        }
+        public IEnumerable<FileDetails> Filesdashboard()
+        {
+            return  _IEmployeeRepository.Filesdashboard();
+        }
+        public void FileDelete(int id, string wwwRootPath)
+        {
+             _IEmployeeRepository.FileDelete(id, wwwRootPath);
+        }
+        public string FileDownload(int id, string wwwRootPath)
+        {
+            return  _IEmployeeRepository.FileDownload(id, wwwRootPath);
+        }
+        //==============================================================================
 
-
+        #region FileUpload
+        public void FileUpload(FileDetails filE)
+        {
+            _IEmployeeRepository.FileUpload(filE);
+        }
+        #endregion
+        #region ViewFiles
+        public List<FileDetails> GetFile()
+        {
+            return _IEmployeeRepository.GetFile();
+        }
+        #endregion
+        #region Deletefile
+        public void DeleteFile(int Id)
+        {
+            _IEmployeeRepository.DeleteFile(Id);
+        }
+        #endregion
     }
 }

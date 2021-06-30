@@ -9,12 +9,26 @@
 {
     <partial name="_ValidationScriptsPartial" />
 }
+@if (TempData["LoginAlert"] != null)
+{
+    <script>
+        alert("@Html.Raw(@TempData["LoginAlert"].ToString())");
+    </script>
 
+}
+
+@if (TempData["LogoutAlert"] != null)
+{
+    <script>
+        alert("@Html.Raw(@TempData["LogoutAlert"].ToString())");
+    </script>
+
+}
 <div class="container">
     <div class="contain">
         <div class="main">
             <p class="sign" align="center">Log in</p>
-            @using (Html.BeginForm("Login", "Employee", FormMethod.Post, new { @id = "formDetails", @autocomplete = "off" }))
+            @using (Html.BeginForm("Login1", "Employee", FormMethod.Post, new { @id = "formDetails", @autocomplete = "off" }))
             {
                 <div class="form1">
                     <div class="form-group">
@@ -32,10 +46,10 @@
                                 @*required = "true"*@
 }
 })
-                      
+
                     </div>
 
-                 
+
                     <div class="form-group">
                         @Html.EditorFor(Modal => Modal.PassWord, new
                         {
@@ -47,78 +61,63 @@
                                 @placeholder = "Password",
                                 @maxlength = "50",
                                 @align = "center",
-                              
+
 }
 })
-                      
+
                     </div>
 
-                   
+
                     <button class="submit" type="submit" align="center" onclick="SubmitDetails()">Log in</button>
-                   
+
                 </div>
             }
         </div>
     </div>
 </div>
-<script>
-    $(function () {
-        debugger;
-        $("#formDetails").validate({
-            rules:
-            {
-                UserName: {
-                    required: true,
+<script src="~/js/Login.js"></script>
+@*<script>
+        $(function () {
 
-                },
-
-                PassWord: {
-                    required: true,
-                    minlength: 4,
-                    maxlength: 10
-                }
-
-
-            },
-            messages:
-            {
-                UserName: {
-                    required: "Name is required",
-
-                },
-                PassWord:
+            $("#formDetails").validate({
+                rules:
                 {
-                    required: "Password is required",
-                    minlength: "Password should have miminum of 4 characters",
-                    maxlength: "Password should have maximum of 10 charaacters"
+                    UserName: {
+                        required: true,
+
+                    },
+
+                    PassWord: {
+                        required: true,
+                        minlength: 4,
+                        maxlength: 10
+                    }
+
+
+                },
+                messages:
+                {
+                    UserName:
+                    {
+                        required: "Name is required",
+
+                    },
+                    PassWord:
+                    {
+                        required: "Password is required",
+                        minlength: "Password should have miminum of 4 characters",
+                        maxlength: "Password should have maximum of 10 charaacters"
+                    }
                 }
-            }
+            });
         });
-    });
 
-    function SubmitDetails() {
-        if ($("#formDetails").valid()) {
-            $("#formDetails").submit();
+        function SubmitDetails() {
+            if ($("#formDetails").valid()) {
+                $("#formDetails").submit();
+            }
         }
-    }
 
 
-</script>
+    </script>*@
 
-@*@using (Html.BeginForm("Login", "Employee", FormMethod.Post, new { @class = "formDetails" }))
-{
-
-
-    <div class="form-group">
-
-        <div>@Html.EditorFor(m => m.UserName, new { @class = "form-control", @placeholder = "Username" })</div>
-    </div>
-
-    <div class="form-group">
-        <div>@Html.EditorFor(m => m.PassWord, new { @class = "form-control", @type = "password", @placeholder = "password" })</div>
-    </div>
-
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary form-control">Sign in</button>
-    </div>
-}*@

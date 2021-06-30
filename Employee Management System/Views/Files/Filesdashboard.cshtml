@@ -1,0 +1,43 @@
+﻿@model IEnumerable<EmployeeManagement.Core.Models.FileDetails>
+@{
+    ViewData["Title"] = "Filesdashboard";
+    
+}
+<h1>Filesdashboard</h1>
+<p>
+    <a asp-action="Files">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                FileID
+            </th>
+            <th>
+                Filename
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FileNames)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", "Files", new { id = item.FileId }) |*@
+                    @*@Html.ActionLink("Download", "FileDownload","Files", new { id = item.filesID })*@
+                    <a href="~/Image/@item.FileNames">View</a>
+                    <a href="~/Image/@item.FileNames" download>Download</a>
+                    @Html.ActionLink("Delete", "FileDelete", "Files", new { id = item.FileId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

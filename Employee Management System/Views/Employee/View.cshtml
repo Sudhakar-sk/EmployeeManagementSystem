@@ -21,102 +21,164 @@
 
 <script>
     $(function () {
-        debugger;
+
         $(".input").prop('disabled', true);
         $("input").prop('disabled', true);
     });
 </script>
+<style>
+    .log-title {
+       
+        color: #4800ff;
+    }
+</style>
 
-<div class="col-12 back">
-    <div class="containers col-lg-4 col-mg-4 col-mg-12">
-        <button class="btn btn-primary btn-sm add ml-auto" onclick="EmployeeDashboard()">  EmployeeDashboard </button>
-        <div class="log-div">
-            <div class="log-title">Register</div>
+@*<div class="col-12 back">
+        <button class="btn btn-primary btn-sm add float-left" onclick="EmployeeDashboard()">  EmployeeDashboard </button>
+        <div class="container col-lg-4 col-mg-4 col-mg-12">
 
-            <div class="log-input-fields">
+            <div class="log-div">
+                <h2 class="log-title">Register</h2>
+
+                <div class="log-input-fields">
 
 
+                    @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "agile_form", @id = "formDetails", autocomplete = "off" }))
+                    {
+                        @Html.HiddenFor(model => model.EmployeeId)
+                        <label>Full Name</label>
+                        <div class="log-user">
+
+                            @Html.EditorFor(Modal => Modal.FullName, new { HtmlAttributes = new { @type = "text", @class = "input" } })
+
+                        </div>
+                        <label>UserName</label>
+                        <div class="log-user">
+
+                            @Html.EditorFor(Modal => Modal.UserName, new { HtmlAttributes = new { @type = "text", @class = "input" } })
+
+                        </div>
+
+                        <label>Email</label>
+                        <div class="log-user">
+
+                            @Html.EditorFor(Modal => Modal.Email, new { HtmlAttributes = new { @type = "email", @class = "input" } })
+
+                        </div>
+
+
+
+
+                        <label>Department</label>
+                        <div class="log-user">
+                            @Html.DropDownListFor(Modal => Modal.Department, new List<SelectListItem> { new SelectListItem() { Text="---Select Department---", Value=""},
+                                                   new SelectListItem { Text="IT ", Value="IT"},
+                                                   new SelectListItem { Text="QA", Value="QA"},
+                                                   new SelectListItem { Text="BA", Value="BA"},
+                                                   new SelectListItem { Text="Programmers", Value="Programmers"},
+                                                    new SelectListItem { Text="Developers", Value="Developers"},
+                                           }, new { @class = "input" })
+                        </div>
+                        <label>Matricule</label>
+                        <div class="log-user">
+
+                            @Html.EditorFor(Modal => Modal.Matricule, new { HtmlAttributes = new { @type = "text", @class = "input" } })
+
+                        </div>
+                        <label>Address</label>
+                        <div class="log-user">
+
+                            @Html.EditorFor(Modal => Modal.Address, new { HtmlAttributes = new { @type = "text", @class = "input" } })
+
+                        </div>
+
+                        <label>PhoneNumber</label>
+                        <div class="log-user">
+
+                            @Html.EditorFor(Modal => Modal.PhoneNumber, new { HtmlAttributes = new { @type = "text", @class = "input" } })
+                        </div>
+                        <div class="form-group">
+                            <label>Gender</label>
+                            @Html.RadioButtonFor(Modal => Modal.Gender, "Male")<span>Male</span>
+                            @Html.RadioButtonFor(Modal => Modal.Gender, "Female")<span>Female</span>
+                        </div>
+                        <br />
+
+
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    <button class="btn btn-primary btn-sm add float-left" onclick="EmployeeDashboard()">  EmployeeDashboard </button>
+    <div class="container">     
+           
+            <div class="col-lg-4 offset-lg-4">
                 @using (Html.BeginForm("", "", FormMethod.Post, new { @class = "agile_form", @id = "formDetails", autocomplete = "off" }))
                 {
                     @Html.HiddenFor(model => model.EmployeeId)
-                    <label>Full Name</label>
-                    <div class="log-user">
 
-                        @Html.EditorFor(Modal => Modal.FullName, new { HtmlAttributes = new { @type = "text", @class = "input" } })
-
-                    </div>
-                    <label>UserName</label>
-                    <div class="log-user">
-
-                        @Html.EditorFor(Modal => Modal.UserName, new { HtmlAttributes = new { @type = "text", @class = "input" } })
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        @Html.EditorFor(Modal => Modal.FullName, new { HtmlAttributes = new { @type = "text", @class = "input form-control" } })
 
                     </div>
-
-                    <label>Email</label>
-                    <div class="log-user">
-
-                        @Html.EditorFor(Modal => Modal.Email, new { HtmlAttributes = new { @type = "email", @class = "input" } })
+                  
+                    <div class="form-group">
+                        <label>UserName</label>
+                        @Html.EditorFor(Modal => Modal.UserName, new { HtmlAttributes = new { @type = "text", @class = "input form-control" } })
 
                     </div>
 
+                    
+                    <div class="form-group">
+                        <label>Email</label>
+                        @Html.EditorFor(Modal => Modal.Email, new { HtmlAttributes = new { @type = "email", @class = "input form-control" } })
+
+                    </div>
 
 
-
-                    <label>Department</label>
-                    <div class="log-user">
+                    <div class="form-group">
+                        <label>Department</label>
                         @Html.DropDownListFor(Modal => Modal.Department, new List<SelectListItem> { new SelectListItem() { Text="---Select Department---", Value=""},
                                                new SelectListItem { Text="IT ", Value="IT"},
                                                new SelectListItem { Text="QA", Value="QA"},
                                                new SelectListItem { Text="BA", Value="BA"},
                                                new SelectListItem { Text="Programmers", Value="Programmers"},
                                                 new SelectListItem { Text="Developers", Value="Developers"},
-                                       }, new { @class = "input" })
+                                       }, new { @class = "input form-control" })
                     </div>
-                    <label>Matricule</label>
-                    <div class="log-user">
-
-                        @Html.EditorFor(Modal => Modal.Matricule, new { HtmlAttributes = new { @type = "text", @class = "input" } })
-
-                    </div>
-                    <label>Address</label>
-                    <div class="log-user">
-
-                        @Html.EditorFor(Modal => Modal.Address, new { HtmlAttributes = new { @type = "text", @class = "input" } })
+                  
+                    <div class="form-group">
+                        <label>Matricule</label>
+                        @Html.EditorFor(Modal => Modal.Matricule, new { HtmlAttributes = new { @type = "text", @class = "input form-control" } })
 
                     </div>
+                  
+                    <div class="form-group">
+                        <label>Address</label>
+                        @Html.EditorFor(Modal => Modal.Address, new { HtmlAttributes = new { @type = "text", @class = "input form-control" } })
 
-                    <label>PhoneNumber</label>
-                    <div class="log-user">
+                    </div>
 
-                        @Html.EditorFor(Modal => Modal.PhoneNumber, new { HtmlAttributes = new { @type = "text", @class = "input" } })
+                    <div class="form-group">
+                        <label>PhoneNumber</label>
+                        @Html.EditorFor(Modal => Modal.PhoneNumber, new { HtmlAttributes = new { @type = "text", @class = "input form-control" } })
                     </div>
                     <div class="form-group">
                         <label>Gender</label>
-                        @Html.RadioButtonFor(Modal => Modal.Gender, "Male")<span>Male</span>
-                        @Html.RadioButtonFor(Modal => Modal.Gender, "Female")<span>Female</span>
-                    </div>
-                    <br />
-                    @*<div class="row" style="text-align:center">
-                        <div class="btn-algins">
-                            @if (Model.EmployeeId != 0)
-                            {
-                                <button type="submit" class="btn btn-success" onclick="SubmitDetails()">Update</button>
-
-                            }
-                            else
-                            {
-                                <button type="submit" class="btn btn-success" onclick="SubmitDetails()">Submit</button>
-
-                            }
-                            <button type="reset" class="btn btn-outline-secondary">Reset</button>
-                            <button type="button" class="btn btn-danger" onclick="btn()">Cancel</button>
+                        <div>
+                            @Html.RadioButtonFor(Modal => Modal.Gender, "Male")<span>Male</span>
+                            @Html.RadioButtonFor(Modal => Modal.Gender, "Female")<span>Female</span>
                         </div>
-                    </div>*@
+                    </div>
 
                 }
 
-
             </div>
         </div>
-    </div>
-</div>
+    
+

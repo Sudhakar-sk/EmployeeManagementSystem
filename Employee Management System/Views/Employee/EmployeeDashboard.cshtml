@@ -18,8 +18,9 @@
 
     function Delete(id)
     {
-        window.location.href = "@Url.Action("Delete", "Employee")?Id=" + id;
-
+        if (confirm("Are sure wants to delete?")) {
+            window.location.href = "@Url.Action("Delete", "Employee")?Id=" + id;
+        }
     }
 
     function Edit(id)
@@ -29,6 +30,10 @@
      function View(id)
     {
             window.location.href = "@Url.Action("View", "Employee")?Id=" + id;
+    }
+    function Logout()
+    {
+        window.location.href = "@Url.Action("Logout","Employee")"
     }
 </script>
 
@@ -66,7 +71,14 @@
         alert("@Html.Raw(@TempData["EditAlert"].ToString())");
     </script>
 }
-
+<style>
+    .btn-align {
+        margin-left:15px;
+    }
+    .btn-aligns{
+        margin-right:15px;
+    }
+</style>
 
 <div class="container-fluid">
     <div class="">
@@ -76,7 +88,8 @@
 
 
             <div class="row">
-                <button class="btn btn-primary btn-sm ml-auto" id="add" onclick="AddEmployee()"> Add Employee </button>
+                <button class="btn btn-primary btn-sm btn-align" onclick="Logout()">Logout</button>
+                <button class="btn btn-primary btn-sm ml-auto btn-aligns" onclick="AddEmployee()"> Add Employee </button>
                 <div class="row1">
 
                     <div class="col-md-12">

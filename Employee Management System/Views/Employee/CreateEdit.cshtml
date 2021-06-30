@@ -16,18 +16,30 @@
     .error{
         color:red;
     }
+    .log-title{
+        text-align:center;
+        color:#4800ff;
+    }
+    .Gender{
+        position:relative;
+    }
+    #Gender-error {
+        position: absolute;
+        margin-left: -67px;
+        margin-top: 25px;
+    }
 </style>
 <div class="col-12 back">
-    <button class="btn btn-primary btn-sm float-right add" onclick="EmployeeDashboard()">  EmployeeDashboard </button>
+    <button class="btn btn-primary btn-sm float-right add" onclick="EmployeeDashboard()">EmployeeDashboard</button>
     <div class="container col-lg-3 col-mg-3 col-mg-12">
 
         <div class="log-div">
-            <div class="log-title">Register</div>
+            <h2 class="log-title ">Register</h2>
 
             <div class="log-input-fields">
 
 
-                @using (Html.BeginForm("CreateEdit", "Employee", FormMethod.Post, new { @class = "agile_form", @id = "Formdetails", autocomplete = "off" }))
+                @using (Html.BeginForm("CreateEdit", "Employee", FormMethod.Post, new { @class = "agile_form", @id = "Formdetails", autocomplete = "" }))
                 {
                     @Html.HiddenFor(model => model.EmployeeId)
                     <div class="form-group">
@@ -87,10 +99,10 @@
                         <label>PhoneNumber</label>
                         <div class="log-user">
 
-                            @Html.EditorFor(Modal => Modal.PhoneNumber, new { HtmlAttributes = new { @type = "text", @placeholder = "PhoneNumber", @class = "input form-control" } })
+                            @Html.EditorFor(Modal => Modal.PhoneNumber, new { HtmlAttributes = new { @type = "text", @placeholder = "PhoneNumber", @class = "input form-control",@minlength="10",@maxlenghth="10" } })
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group Gender">
                         <label>Gender</label>
                         
                             @Html.RadioButtonFor(Modal => Modal.Gender, "Male")<span>Male</span>
@@ -98,7 +110,7 @@
                       
                         <br />
                         <div class="row" style="text-align:center">
-                            <div class="btn-algins">
+                            <div class="btn-aligns ">
                                 @if (Model.EmployeeId != 0)
                                 {
                                     <button type="button" class="btn btn-success" onclick="SubmitDetails()">Update</button>
@@ -109,8 +121,8 @@
                                     <button type="button" class="btn btn-success" onclick="SubmitDetails()">Submit</button>
 
                                 }
-                                <button type="reset" class="btn btn-outline-secondary">Reset</button>
-                                <button type="button" class="btn btn-danger" onclick="btn()">Cancel</button>
+                                <button type="button" class="btn btn-outline-secondary"onclick="Reset()">Reset</button>
+                                <button type="button" class="btn btn-danger" onclick="Cancel()">Cancel</button>
                             </div>
                         </div>
                         }
@@ -124,11 +136,34 @@
     {
         window.location.href = "@Url.Action("EmployeeDashboard", "Employee")";
     }
-</script>
+      function Cancel() {
+        if (confirm("Are you Sure You Want to Cancel")) {
+            window.location.href = "@Url.Action("EmployeeDashboard", "Employee")";
+        }
+    }
+ 
+      
+    $(function () {
+        if ($("#EmployeeId").val() == 0 )
+        {
+            $("#PhoneNumber").val("");
 
-    <script>
+        }
+    });
+
+    function Reset() {
+       
+        $("#FullName").val("");
+        $("#UserName").val("");
+        $("#Email").val("");
+        $("#Department").val("");
+        $("#Matricule").val("");
+        $("#Address").val("");
+        $("#PhoneNUmber").val("");
+        $("#Gender").val("");
+    }
         $(function () {
-        debugger;
+      
             $("#Formdetails").validate({
             rules:
             {
@@ -158,13 +193,13 @@
                 },
                 PhoneNumber:
                 {
-            required: true,
+                   required: true,
                     minlength: 10,
                     maxlength: 10,
                 },
                 Gender:
                 {
-            required: true,
+                required: true,
                 }
             },
             messages:
@@ -195,7 +230,9 @@
                 },
                 PhoneNumber:
                 {
-            required: "PhoneNumber is Required",
+                    required: "PhoneNumber is Required",
+                    minlength: "Enter Valid Number",
+                    maxlength: "Enter Valid Number",
                 },
                 Gender:
                 {
@@ -203,235 +240,13 @@
                 }
             }
         });
-    });
+        });
+
     function SubmitDetails() {
+        debugger
         if ($("#Formdetails").valid()) {
             $("#Formdetails").submit();
         }
     }
 </script>
 
-@*<script>
-    $(document).ready(function () {
-        $(function () {
-            debugger;
-
-            alert("Hello");
-            $('#formDetail').validate({
-
-                rules:
-                {
-                    FullName:
-                    {
-                        required: true,
-                        maxlength: 50
-                    }
-                    //UserName:
-                    //{
-                    //    required: true,
-                    //    maxlength: 50
-                    //},
-                    //Email:
-                    //{
-                    //    required: true
-                    //},
-                    //Department:
-                    //{
-                    //    required: true
-                    //},
-                    //Matricule:
-                    //{
-                    //    required: true
-                    //},
-                    //Address:
-                    //{
-                    //    required: true
-                    //},
-                    //PhoneNumber:
-                    //{
-                    //    required: true
-                    //},
-                    //Gender:
-                    //{
-                    //    required: true
-                    //}
-
-
-                },
-                messages:
-                {
-                    FullName:
-                    {
-                        required: "FullName is required",
-                        maxlength: "enter valid Name"
-                    }
-                    //UserName:
-                    //{
-                    //    required: "UserName is required",
-                    //    maxlength: "enter valid Username"
-                    //},
-                    //Email:
-                    //{
-                    //    required: "Email is required"
-                    //},
-                    //Department:
-                    //{
-                    //    required: "Department is required"
-                    //},
-                    //Matricule:
-                    //{
-                    //    required: "age is required"
-                    //},
-                    //Address:
-                    //{
-                    //    required: "Matricule is required"
-                    //},
-                    //PhoneNumber:
-                    //{
-                    //    required: "PhoneNumber is required"
-                    //},
-                    //Gender:
-                    //{
-                    //    required: "Gender is required"
-                    //}
-
-
-                }
-            });
-        });
-    });
-    function SubmitDetail()
-    {
-       
-        if ($("#formDetail").valid())
-        {
-            $("#formDetail").submit();
-        }
-    }
-
-   
-     
-</script>*@
-
-@*<script>
-
-        //$(function ()
-        //{
-        //    if ($("#StudentId") == 0)
-        //    {
-        //        $("#FirstName").val("");
-        //        $("#LastName").val("");
-        //        $("#DateOfBirth").val("");
-        //        $("#Age").val("");
-        //        $("#FavoriteSubject").val("");
-        //        $("#InterstedCourse").val("");
-        //        $("#MathsMark").val("");
-        //        $("#ChemistryMark").val("");
-        //        $("#ComputerScienceMark").val("");
-        //    }
-        //});
-        $(function () {
-            debugger;
-            var form = $('#formDetails').get(0);
-            $.removeData(form, 'validator');
-            validator = $('#formDetails').validate({
-                rules:
-                {
-                    FirstName:
-                    {
-                        maxlength: 50,
-                      /*  regex: (/ ^[A - Za - z] +$/)*/
-                    },
-
-                    LastName:
-                    {
-                        required: true,
-                        maxlength: 50,
-                      /*  regex: (/ ^[A - Za - z] +$/)*/
-                    },
-                    Age:
-                    {
-                        required: true,
-                        maxlength: 3,
-                        regex: "^[1-9]?[0-9]{1}$|^100$"
-
-                    },
-                    FavoriteSubject:
-                    {
-                        required: true,
-                    },
-                    MathsMark:
-                    {
-                        required: true,
-                        maxlength: 3,
-                        regex: "^[1-9]?[0-9]{1}$|^100$"
-                    },
-                    ChemistryMark:
-                    {
-                        required: true,
-                        maxlength: 3,
-                        regex: "^[1-9]?[0-9]{1}$|^100$"
-                    },
-                    ComputerScienceMark:
-                    {
-                        required: true,
-                        maxlength: 3,
-                        regex: "^[1-9]?[0-9]{1}$|^100$"
-                    }
-                },
-                messages:
-                {
-
-                    FirstName:
-                    {
-                        maxlength: "Last Name should be 50 charcter",
-                        regex: "Enter valid Name"
-                    },
-                    LastName:
-                    {
-                        required: "Last Name is required",
-                        maxlength: "Last Name should be 50 charcter",
-                        regex: "Enter valid Name"
-                    },
-                    age:
-                    {
-                        required: "age is required",
-                        maxlength: "age should be 3 digits",
-                        regex: "enter valid mark"
-                    },
-                    FavoriteSubject:
-                    {
-                        required: "Please Select Favorite Subject",
-                    },
-                    MathsMark:
-                    {
-                        required: "Maths Mark is required",
-                        maxlength: "Maths Mark should be 3 digits",
-                        regex: "Enter Valid Mark"
-                    },
-                    ChemistryMark:
-                    {
-                        required: "Chemistry Mark is required",
-                        maxlength: "Chemistry Mark should be 3 digits",
-                        regex: "Enter Valid Mark"
-                    },
-                    ComputerScienceMark:
-                    {
-                        required: "Computer Science Mark is required",
-                        maxlength: "Computer Science Mark should be 3 digits",
-                        regex: "Enter Valid Mark"
-                    }
-                }
-            });
-        });
-
-
-
-
-        function SubmitDetails() {
-            debugger;
-            if ($("#formDetails").valid()) {
-                $("#formDetails").submit();
-            }
-        }
-    </script>*@

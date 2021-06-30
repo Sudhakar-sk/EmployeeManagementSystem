@@ -2,17 +2,18 @@ using EmployeeManagement.Utilities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Employee_Management_System
+namespace EmployeeManagement.API
 {
     public class Startup
     {
@@ -26,22 +27,13 @@ namespace Employee_Management_System
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-            services.AddRazorPages().AddViewOptions(options =>
+
+            services.AddControllers();
+            services.AddSwaggerGen(c =>
             {
-                options.HtmlHelperOptions.ClientValidationEnabled = true;
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "EmployeeManagement.API", Version = "v1" });
             });
             DIResolver.ConfigureServices(services);
-            services.AddMvc();
-            services.AddSession(options => {
-                options.IdleTimeout = TimeSpan.FromMinutes(60);
-            });
-
-            services.AddSingleton<IFileProvider>(
-           new PhysicalFileProvider(
-               Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
-
-            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,16 +42,12 @@ namespace Employee_Management_System
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "EmployeeManagement.API v1"));
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+
             app.UseHttpsRedirection();
-            app.UseStaticFiles();
-            app.UseSession();
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -68,7 +56,7 @@ namespace Employee_Management_System
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Files}/{action=FileUpload}/{id?}");
+                    pattern: "{controller=EmployeeApi}/{action=EmployeeDashboard}/{id?}");
             });
         }
     }

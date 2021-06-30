@@ -11,27 +11,31 @@ namespace EmployeeManagement.Core.Models
     {
         [Key]
         public int EmployeeId{ get; set; }
-       // [Required]
-       
-        public string FullName { get; set; }
-        // [Required]
 
-        public string UserName { get; set; }
-       // [Required]
+        [Required]
       
+        public string FullName { get; set; }
+
+        [Required(ErrorMessage = "Please enter name")]
+       
+        public string UserName { get; set; }
+      
+        [Required(ErrorMessage = "Please enter email address")]
+
+        [EmailAddress]
         public string Email { get; set; }
-       // [Required]
-       
+
+        [Required]
         public string Department { get; set; }
-       // [Required]
-       
+
+        [Required]
         public string Matricule { get; set; }
-        //[Required]
-       
+
+        [Required]
         public string Address { get; set; }
+
         public long PhoneNumber { get; set; }
-       // [Required]
-       
+        [Required(ErrorMessage = "Please Select Gender")]
         public string Gender { get; set; }
     }
 }

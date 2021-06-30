@@ -1,0 +1,63 @@
+﻿@model IEnumerable<EmployeeManagement.Core.Models.FileDetails>
+@{
+    var Img = "";
+}
+
+<style>
+    .size {
+        width: 100px;
+        height: 100px;
+    }
+</style>
+<script>
+function Upload()
+    {
+        window.location.href = "@Url.Action("FileUpload", "Files")";
+    }
+</script>
+
+        <button class="btn btn-primary btn-sm ml-auto btn-aligns" onclick="Upload()"> Upload </button>
+
+        <table class="table-bordered table table-hover">
+            <thead>
+                <tr>
+                    <th>Filename</th>
+                    <th>File</th>
+                    <th>Action</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    int values = 0;
+                    foreach (var Details in Model)
+                    {
+                        values++;
+                        <tr>
+                            <td>@Details.FileNames</td>
+                            @if (Details.UploadFile != null)
+                            {
+                                var base64 = Convert.ToBase64String(Details.UploadFile);
+                                Img = string.Format("data:image/jpeg;base64,{0}", base64);
+                                <td><img src="@Img" class="border-0 img-fluid img-style size" /></td>
+                            }
+                            <td>
+                                <a href="@Img" download class="btn btn-primary"> Download</a>
+                            </td>
+                            <td><button class="btn btn-danger  " id="@Details.FileId" onclick="Delete(this.id)">Delete</button></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+
+        <script>
+    function Delete(id)
+    {
+        if (confirm("Are you Sure Delete Your Record ?"))
+        {
+            window.location.href = "@Url.Action("DeleteFile", "Files")?Id=" + id;
+        }
+    }
+        </script>

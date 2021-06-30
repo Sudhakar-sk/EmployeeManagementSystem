@@ -1,0 +1,79 @@
+﻿@*@model IEnumerable<EmployeeManagement.Core.Models.FileDetails>
+
+
+
+
+<script src="~/lib/jquery/dist/jquery.js"></script>
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}
+
+
+<style>
+    p {
+        text-align: center;
+    }
+</style>
+
+
+
+
+
+
+
+
+                <div class="row">
+
+                    <div class="col-md-12">
+
+                        <div class="table-wrap">
+                            <table class="table table-bordered table-striped">
+
+                                <thead class="table-primari">
+                                    <tr>
+                                        <td>FileContent</td>
+                                        <td>FileName</td>
+                                        <td>Download</td>
+                                        <td>Delete</td>
+                                    
+                                       
+                                </thead>
+
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+
+                                        foreach (var items in Model)
+                                        {
+                                    <tr>
+                                        <td>@items.FileContent </td>
+                                        <td>@items.FileName </td>
+                                        <td>
+                                            <button class="btn btn-warning" type="button" id="@items.FileId" onclick="Download(this.id)">Download</button>
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger" type="button" id="@items.FileId" onclick="Delete(this.id)">delete</button>
+                                        </td>
+
+
+                                    </tr>
+                                        }
+
+                                    }
+
+                                    else
+                                    {
+                                        <tr>
+                                            <td colspan="7">No Record Found</td>
+                                        </tr>
+                                    }
+
+                                </tbody>
+                            </table>
+                          
+                        </div>
+                    </div>
+                </div>*@
+           
+   
